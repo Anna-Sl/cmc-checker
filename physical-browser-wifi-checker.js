@@ -20,14 +20,14 @@ const PhysicalBrowserWifiChecker = {
         return this.androidInterface != null;
     },
 
-    startScanForAvailableNetworks: function (whenScannedObject) {
+    startScanForAvailableWiFis: function (whenScannedObject) {
         if (!this.androidInterface) {
-            console.error('PhysicalBrowserWifiChecker.startScanForAvailableNetworks: androidInterface is not defined');
+            console.error('PhysicalBrowserWifiChecker.startScanForAvailableWiFis: androidInterface is not defined');
             return;
         }
         this.whenScanned = whenScannedObject;
         this.androidInterface.startScanForAvailableWiFis();
-        console.info("PhysicalBrowserWifiChecker.startScanForAvailableNetworks: started");
+        console.info("PhysicalBrowserWifiChecker.startScanForAvailableWiFis: started");
     },
 
     initAvailableNetworks: function (networks) {

@@ -33,7 +33,7 @@ const CmcChecker = {
     console.info("Start process cmc-checker.js");
     try {
         if (PhysicalBrowserWifiChecker.isPhysicalBrowser())
-            PhysicalBrowserWifiChecker.startScanForAvailableNetworks(CmcChecker);
+            PhysicalBrowserWifiChecker.startScanForAvailableWiFis(CmcChecker);
     } catch (e) {
         console.error('PhysicalBrowserWifiChecker startScanForAvailableNetworks ERROR: ' + e.toString());
     }
