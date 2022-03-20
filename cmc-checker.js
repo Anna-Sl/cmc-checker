@@ -3,39 +3,33 @@
  */
 const CmcChecker = {
 
-    isDeviceInside: function (networksArray) {
-        for (const network of networksArray) {
-            let net = network.SSID;
-            if (CmsWifiNames.includes(net)) {
-                console.info("CmcChecker.isDeviceInside: Detected CMC network " + net + ". Means the device is on CMC territory.");
-                return true;
-            }
+    detectedWifiList: null,
+
+    isDeviceInside: function (networkData) {
+        let networkDataProcessor = new NetworkDataProcessor(networkData);
+        if (networkDataProcessor.detectsAnyOfWifi(cmcWifiNames)) {
+            let detectedWifiList = networkDataProcessor.getDetectedWifiList(cmcWifiNames);
+            this.detectedWifiList = detectedWifiList;
+            // console.info("CmcChecker.isDeviceInside: The device is on CMC territory. Detected next CMC Wi-Fi networks: " + detectedWifiList);
+            return true;
         }
-        console.info("CmcChecker.isDeviceInside: no CMC network is detected. Means the device is NOT on CMC territory.");
+        console.info("CmcChecker.isDeviceInside: No CMC network is detected. Means the device is NOT on CMC territory.");
         return false;
     },
 
-    initAvailableNetworks: function (networksArray) {
-        if (this.isDeviceInside(networksArray)) {
-            document.getElementById("welcomeMessage").innerText = messageWhenInside;
-        } else {
-            document.getElementById("welcomeMessage").innerText = messageWhenOutside;
-        }
+    showDetectedWifiList: function(detectedWifiList) {
+        // console.info("CmcChecker.showDetectedWifiList: Detected next CMC Wi-Fi networks: " + detectedWifiList);
+        document.getElementById("detectedWifiList").innerText = detectedNextWifiListMessage + detectedWifiList;
     },
 
-};
+    showPhysicalBrowserCongratulation: function () {
+        document.getElementById("physicalBrowserCongratulation").innerText = physicalBrowserCongratulation;
+    },
 
-/**
- *   CmcChecker Initialisation
- */
-
-{
-    console.info("Start process cmc-checker.js");
-    try {
-        if (PhysicalBrowserWifiChecker.isPhysicalBrowser())
-            PhysicalBrowserWifiChecker.startScanForAvailableWiFis(CmcChecker);
-    } catch (e) {
-        console.error('PhysicalBrowserWifiChecker startScanForAvailableNetworks ERROR: ' + e.toString());
+    moveToInsideCmcFacultyPage: function() {
+        console.info("CmcChecker.moveToInsideCmcFacultyPage: Redirection to faculty-cmc-checker/inside-cmc-faculty.html");
+        location.replace("/faculty-cmc-checker/inside-cmc-faculty.html");
+        console.info("CmcChecker.moveToInsideCmcFacultyPage: Redirection is finished");
     }
-    console.info("End process cmc-checker.js");
-}
+
+};
